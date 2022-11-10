@@ -84,9 +84,9 @@ const goToSetPage = async (setLink, setName) => {
     }
     return data;
   } catch(err) {
-    console.log("failed and waiting");
+    console.log("failed and waiting set page");
     console.log(err)
-    await new Promise((r) => setTimeout(r, 1000 * 60 * 2));
+    await new Promise((r) => setTimeout(r, 1000 * 60 ));
     return data;
   }
 };
@@ -109,11 +109,12 @@ const getIconPage = async (pageLink, title, setName, style) => {
       iconSrc,
       tags: tags.join(","),
     };
+    console.log("got data", data)
     return data;
   } catch(err) {
-    console.log("failed and waiting");
-    console.log(err)
-    await new Promise((r) => setTimeout(r, 1000 * 60 * 2));
+    console.log("failed and waiting icon page");
+    console.log(pageLink, err)
+    await new Promise((r) => setTimeout(r, 1000 * 60 ));
     return;
   }
 };
