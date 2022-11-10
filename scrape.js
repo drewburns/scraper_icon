@@ -5,12 +5,15 @@ var fs = require("fs");
 
 const scrape = async () => {
   const data = [];
-  var counter = 1;
-  while (data.length < 5000) {
+  var counter = 20;
+  while (data.length < 1200) {
     console.log("getting page: ", counter);
     console.log("we have so far: ", data.length);
     try {
-      const res = await axios.get(`https://www.flaticon.com/packs/${counter}`);
+      // const res = await axios.get(`https://www.flaticon.com/packs/${counter}?color=black&shape=outline`);
+      const res = await axios.get(
+        `https://www.flaticon.com/authors/basic-straight/lineal/${counter}`
+      );
       const html = parse(res.data);
       const testBoxes = html.querySelectorAll(".box");
       for (const x in testBoxes) {
@@ -29,8 +32,9 @@ const scrape = async () => {
           data.push(rows[i]);
         }
       }
-    } catch {
+    } catch(err) {
       console.log("failed and waiting");
+      console.log(err)
       await new Promise((r) => setTimeout(r, 1000 * 60 * 2));
     }
     counter += 1;
@@ -42,7 +46,7 @@ const scrape = async () => {
 const saveData = (data) => {
   let json2csvCallback = function (err, csv) {
     if (err) throw err;
-    fs.writeFile("data1.csv", csv, "utf8", function (err) {
+    fs.writeFile("lineal1.csv", csv, "utf8", function (err) {
       if (err) {
         console.log(
           "Some error occured - file either not saved or corrupted file saved."
@@ -68,7 +72,7 @@ const goToSetPage = async (setLink, setName) => {
       .querySelectorAll(".title-style")[0]
       .innerText.split("|")[1]
       .trim();
-    for (const x in iconBoxes) {
+    for (const x in iconBoxes.slice(0, 5)) {
       // await new Promise((r) => setTimeout(r, 300));
 
       const iconBox = iconBoxes[x];
@@ -79,8 +83,9 @@ const goToSetPage = async (setLink, setName) => {
       data.push(row);
     }
     return data;
-  } catch {
+  } catch(err) {
     console.log("failed and waiting");
+    console.log(err)
     await new Promise((r) => setTimeout(r, 1000 * 60 * 2));
     return data;
   }
@@ -105,8 +110,9 @@ const getIconPage = async (pageLink, title, setName, style) => {
       tags: tags.join(","),
     };
     return data;
-  } catch {
+  } catch(err) {
     console.log("failed and waiting");
+    console.log(err)
     await new Promise((r) => setTimeout(r, 1000 * 60 * 2));
     return;
   }

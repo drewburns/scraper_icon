@@ -1,0 +1,32 @@
+{
+  "icon-test": {
+    "description": "",
+    "citation": "",
+    "homepage": "",
+    "license": "",
+    "features": {
+      "image": { "decode": true, "id": null, "_type": "Image" },
+      "text": { "dtype": "string", "id": null, "_type": "Value" }
+    },
+    "post_processed": null,
+    "supervised_keys": null,
+    "task_templates": null,
+    "builder_name": "imagefolder",
+    "config_name": "test_icons",
+    "version": {
+      "version_str": "0.0.0",
+      "description": null,
+      "major": 0,
+      "minor": 0,
+      "patch": 0
+    },
+    "splits": {
+      "train": {
+        "name": "train",
+        "num_examples": 1445,
+        "num_bytes": 229675,
+        "dataset_name": "parquet"
+      }
+    }
+  }
+}
