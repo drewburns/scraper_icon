@@ -12,19 +12,22 @@ import io
 def upload_to_aws(old_url):
     key = ''.join(random.choices(string.ascii_uppercase + string.digits, k=15))
 
+    print("uplaod???")
     urllib.request.urlretrieve(
     old_url,
     f"images/{key}.png")
     img = Image.open(f"images/{key}.png")
-    rgb_im = img.convert('RGB')
+    bg = Image.new("RGB", img.size, (255,255,255))
+    bg.paste(img, img)
+    # rgb_im = img.convert('RGB')
     in_mem_file = io.BytesIO()
 
-    rgb_im.save(in_mem_file, "JPEG")
+    bg.save(in_mem_file, "JPEG")
     in_mem_file.seek(0)
 
     session = boto3.Session(
-                    aws_access_key_id="AKIAULFJV5VXSQH54VHL",
-                    aws_secret_access_key="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",
+                    aws_access_key_id="AKIAULFJV5VX7XMJSFHT",
+                    aws_secret_access_key="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",
                 )
     s3 = session.resource('s3') 
 
@@ -33,7 +36,7 @@ def upload_to_aws(old_url):
     return f"https://keystroke-assets.s3.amazonaws.com/images/{key}.jpg"
 
 data = []
-with open('flat_icons.csv', newline='') as csvfile:
+with open('lineal1.csv', newline='') as csvfile:
     reader = csv.reader(csvfile)
     for row in reader:
         title = row[0]
@@ -41,7 +44,7 @@ with open('flat_icons.csv', newline='') as csvfile:
         icon_type = row[2]
         link = row[3]
         tags = row[4]
-        if icon_type == "Flat":
+        if icon_type == "Lineal":
             new_link = upload_to_aws(link)
             data.append([f"{title}, {tags}", {'bytes': None, 'path': new_link}])
 
@@ -50,5 +53,5 @@ df = pd.DataFrame(data, columns=['text', 'image'])
   
 # print dataframe.
 # print(df)
-df.to_parquet('flat_icons_jpg.parquet')
+df.to_parquet('line_icon.parquet')
 

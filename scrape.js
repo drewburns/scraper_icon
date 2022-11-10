@@ -109,7 +109,6 @@ const getIconPage = async (pageLink, title, setName, style) => {
       iconSrc,
       tags: tags.join(","),
     };
-    console.log("got data", data)
     return data;
   } catch(err) {
     console.log("failed and waiting icon page");
